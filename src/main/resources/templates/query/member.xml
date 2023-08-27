@@ -1,1 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.member.login.dao.MemberDAO">
+	
+	<select id="login" parameterType="member" resultType="member">
+		/* 로그인 처리 */
+		select id, pw
+		from members
+		where id=#{id} and pw=#{pw}
+	</select>
+	
+	<!-- 
+	<insert id="signUp" parameterType="member">
+	    /* 회원가입 */
+	    INSERT INTO MEMBERS(no, id, pw, email, phone, birth, usertype, userdate)
+	    VALUES (members_seq.nextval, #{id}, #{pw}, #{email}, #{phone}, #{birth},
+	    <choose>
+	        <when test="email like '%@kakao%'"> '카카오회원' </when>
+	        <when test="email like '%@naver%'"> '네이버회원' </when>
+	        <otherwise> '일반회원' </otherwise>
+	    </choose>,
+	    sysdate)
+	</insert>
+
+	<update id="myPageUpdate" parameterType="member">
+		/*정보 수정 */
+		UPDATE MEMBERS  
+		SET	pw=#{pw}, phone=#{phone}
+		WHERE pw=#{pw}
+	</update>
+	
+	<delete id="myPageDelete" parameterType="member">
+		/* 회원 탈퇴 */
+		DELETE FROM MEMBERS
+		WHERE id=#{id} and pw=#{pw}
+	</delete>
+	 -->
+	
+	
+</mapper>

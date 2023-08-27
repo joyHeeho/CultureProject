@@ -4,7 +4,7 @@
 	<typeAliases>
 		<typeAlias type="com.spring.client.board.vo.BoardVO" alias="board"/>
 		<typeAlias type="com.spring.admin.login.vo.AdminLoginVO" alias="adminLogin"/>
-		<typeAlias type="com.spring.member.login.vo.MemberLoginVO" alias="memberLogin"/>
+		<typeAlias type="com.spring.member.login.vo.MemberVO" alias="member"/>
 	</typeAliases>
 
 </configuration>
