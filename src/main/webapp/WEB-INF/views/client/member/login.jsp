@@ -6,7 +6,7 @@
 			$("#loginBtn").click(function(){
 				$("#loginForm").attr({
 					"method" : "post",
-					"action" : "/main"
+					"action" : "/member/login"
 				})
 				$("#loginForm").submit();
 			});
@@ -18,20 +18,24 @@
 		
 	</script>
 	
+	
 	</head>
 	<body>
-		<div class="logo">
-			<img src="/resources/image/cultureLogo">
+		<div class="container">
+			<div class="logo">
+				<img src="/resources/image/cultureLogo">
+			</div>
+			<div>
+				<form id="loginForm" name="loginForm">
+					<label>아이디</label>
+					<input type="text" name="id" id="id" />
+					<label>비밀번호</label>
+					<input type="password" name="pw" id="pw" />
+					<button type="button" id="loginBtn" name="loginBtn" >로그인</button>
+					<button type="button" id="signUpBtn" name="signUpBtn">회원가입</button>
+				</form>
+			</div>
 		</div>
-		<div>
-			<form id="loginForm" name="loginForm">
-				<label>아이디</label>
-				<input type="text" name="id" id="id" />
-				<label>비밀번호</label>
-				<input type="password" name="pw" id="pw" />
-				<button type="button" id="loginBtn" name="loginBtn" >로그인</button>
-				<button type="button" id="signUpBtn" name="signUpBtn">회원가입</button>
-			</form>
-		</div>
+		
 	</body>
 </html>

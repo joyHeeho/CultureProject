@@ -9,7 +9,7 @@
 		where id=#{id} and pw=#{pw}
 	</select>
 	
-	<!-- 
+	
 	<insert id="signUp" parameterType="member">
 	    /* 회원가입 */
 	    INSERT INTO MEMBERS(no, id, pw, email, phone, birth, usertype, userdate)
@@ -21,7 +21,15 @@
 	    </choose>,
 	    sysdate)
 	</insert>
+	
+	<select id="idChk" parameterType="member" resultType="int">
+		/* 아이디중복확인 */
+		SELECT count(*)
+		FROM MEMBERS
+		WHERE id=#{id}
+	</select>
 
+	<!-- 
 	<update id="myPageUpdate" parameterType="member">
 		/*정보 수정 */
 		UPDATE MEMBERS  

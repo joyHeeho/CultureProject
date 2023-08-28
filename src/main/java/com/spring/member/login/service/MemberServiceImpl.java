@@ -25,6 +25,12 @@ public class MemberServiceImpl implements MemberService {
 	public MemberVO signUp(MemberVO mvo) {
 		return memberDAO.signUp(mvo);
 	}
+
+	/*아이디 중복체크 */
+	@Override
+	public int idChk(MemberVO mvo) {
+		return memberDAO.idChk(mvo);
+	}
 	
 
 	

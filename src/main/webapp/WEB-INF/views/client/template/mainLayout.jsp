@@ -44,6 +44,13 @@
     <link rel="stylesheet" href="/resources/assets/css/style10.css">
     <link rel="stylesheet" href="/resources/assets/css/swiper.css">
     
+    <script type="text/javascript" src="/resources/include/js/jquery-3.7.0.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+		    	// 드롭다운 메뉴 사용하기 위해서 아래의 소스 추가.
+		    	$('.dropdown-toggle').dropdown();
+		});
+	</script>
     
     
     <!--[if lt IE 9]> 
@@ -51,6 +58,7 @@
     <script type="text/javascript">
        alert("현재 브라우저는 지원하지 않습니다. 크롬 브라우저를 추천합니다.!");
     </script>
+    
     
     
     
@@ -93,8 +101,8 @@
 <!--                             <li><a href="#">영화관</a></li> -->
 <!--                             <li><a href="#">오시는길</a></li> -->
                             <li><a href="#">게시판</a></li>
-                            <li><a href="#">로그인</a></li>
-                            <li><a href="#">회원가입</a></li>
+                            <li><a href="/member/login">로그인</a></li>
+                            <li><a href="/member/signUpForm">회원가입</a></li>
                         </ul>
                     </nav>    
                 </div>
