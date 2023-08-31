@@ -101,8 +101,8 @@
 <!--                             <li><a href="#">영화관</a></li> -->
 <!--                             <li><a href="#">오시는길</a></li> -->
                             <li><a href="#">게시판</a></li>
-                            <li><a href="/member/login">로그인</a></li>
-                            <li><a href="/member/signUpForm">회원가입</a></li>
+                            <li><a href="/user/loginUser">로그인</a></li>
+                            <li><a href="/user/signUpForm">회원가입</a></li>
                         </ul>
                     </nav>    
                 </div>
