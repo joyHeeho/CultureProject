@@ -35,8 +35,7 @@ public class UserController {
 	public String loginForm(UserVO uvo, Model model, RedirectAttributes ras) {
 		log.info("loginForm 메서드 성공");
 		UserVO userLogin = userService.login(uvo);	//로그인 정보 세션에 담기, 로그인 메서드 + 쿼리 id = login 
-		log.info(userLogin.toString());
-		
+	
 		String url=null;
 		
 		if(userLogin != null) {

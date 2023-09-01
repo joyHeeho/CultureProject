@@ -27,7 +27,7 @@
 		WHERE user_id=#{userId}
 	</select>
 	
-	<!-- 
+
 	<update id="myPageUpdate" parameterType="user">
 		/*정보 수정 */
 		UPDATE USERS  
@@ -40,6 +40,6 @@
 		DELETE FROM USERS
 		WHERE user_id=#{userId} and user_pw=#{userPw}
 	</delete>
-	 -->
+
 	
 </mapper>
