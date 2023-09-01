@@ -3,8 +3,43 @@
 <mapper namespace="com.spring.user.login.dao.UserDAO">
 
 	<select id="login" parameterType="user" resultType="user">
-		SELECT	user_id, user_pw
+		SELECT	user_id userId, user_pw userPw
 		FROM	USERS
 		WHERE user_id = #{userId} and user_pw = #{userPw}
 	</select>
+	
+	<insert id="signUp" parameterType="user">
+	    /* 회원가입 */
+	    INSERT INTO USERS(user_no, user_id, user_pw, user_email, user_phone, user_birth, user_type, user_date)
+	    VALUES (users_seq.nextval, #{userId}, #{userPw}, #{userEmail}, #{userPhone}, #{userBirth},
+	    <choose>
+	        <when test="user_email like '%@kakao%'"> '카카오회원' </when>
+	        <when test="user_email like '%@naver%'"> '네이버회원' </when>
+	        <otherwise> '일반회원' </otherwise>
+	    </choose>,
+	    sysdate)
+	</insert>
+	
+	<select id="idChk" parameterType="user" resultType="int">
+		/* 아이디중복확인 */
+		SELECT count(*)
+		FROM USERS
+		WHERE user_id=#{userId}
+	</select>
+	
+	<!-- 
+	<update id="myPageUpdate" parameterType="user">
+		/*정보 수정 */
+		UPDATE USERS  
+		SET	user_pw=#{userPw}, user_phone=#{userPhone}
+		WHERE user_pw=#{userPw}
+	</update>
+	
+	<delete id="myPageDelete" parameterType="user" >
+		/* 회원 탈퇴 */
+		DELETE FROM USERS
+		WHERE user_id=#{userId} and user_pw=#{userPw}
+	</delete>
+	 -->
+	
 </mapper>

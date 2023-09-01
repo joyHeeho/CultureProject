@@ -26,4 +26,17 @@ public class TestUserLogin {
 		log.info("로그인 성공");
 	}
 	
+
+	@Test
+	public void idChkTest() {
+		UserVO uvo = new UserVO();
+		
+		uvo.setUserId("user123");
+		
+		int result = userDAO.idChk(uvo);
+		
+		log.info("result : " + result);
+	}
+
+
 }
