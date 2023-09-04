@@ -25,11 +25,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserVO signUp(UserVO uvo) {
-		
-		UserVO userVO = userDAO.signUp(uvo);
-		
-		return userVO;
+	public int signUp(UserVO uvo) {
+	
+		return userDAO.signUp(uvo);
 	}
 
 	@Override
@@ -37,11 +35,7 @@ public class UserServiceImpl implements UserService {
 		return userDAO.idChk(uvo);
 	}
 
-	@Override
-	public int idChk(String uvo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 	
 	
 

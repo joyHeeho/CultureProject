@@ -10,7 +10,7 @@
 				location.href="/user/deleteAccount";
 			})
 			$("#mainPageBtn").click(function(){
-				location.href="";
+				location.href="/user/main";
 			})
 			$("#myOrderListBtn").click(function(){
 				location.href="/user/myOrderList";
@@ -23,36 +23,44 @@
 			<div class="logo">
 				<img src="/resources/image/cultureLogo.jpg">
 			</div>
-			<form>
-				<div>
-					<label>이름</label>
-					<label></label>				
-				</div>
-				<div>
-					<label>아이디</label>
-					<label></label>
-				</div>
-				<div>
-					<label>이메일</label>
-					<label></label>
-				</div>
-				<div>
-					<label>전화번호</label>
-					<label></label>
-				</div>
-				<div>
-					<label>생년월일</label>
-					<label></label>
-				</div>
-				<div>
-					<label>가입일</label>
-					<label></label>
-				</div>
-				<button type="button" id="updateInfoBtn" name="updateInfoBtn">정보 수정</button>
-				<button type="button" id="mainPageBtn" name="mainPageBtn">메인페이지로</button>
-				<button type="button" id="deleteAccountBtn" name="deleteAccountBtn">회원탈퇴</button>
-				<button type="button" id="myOrderListBtn" name="myOrderListBtn">나의 예매내역</button>
-			</form>
+			<c:if test="${empty adminLogin}">
+				<form class="form-signin" id="loginForm">
+				</form>
+			</c:if>
+			<c:if test = "${not empty userLogin}">
+				<form id="myPage"> 
+					<div>
+						<label>이름</label>
+						<label>${userLogin.userName}</label>				
+					</div>
+					<div>
+						<label>아이디</label>
+						<label>${userLogin.userId}</label>
+					</div>
+					<div>
+						<label>이메일</label>
+						<label>${userLogin.userEmail}</label>
+					</div>
+					<div>
+						<label>전화번호</label>
+						<label>${userLogin.userPhone}</label>
+					</div>
+					<div>
+						<label>생년월일</label>
+						<label>${userLogin.userBirth }</label>
+					</div>
+					<div>
+						<label>가입일</label>
+						<label>${userLogin.userDate }</label>
+					</div>
+					<button type="button" id="updateInfoBtn" name="updateInfoBtn">정보 수정</button>
+					<button type="button" id="mainPageBtn" name="mainPageBtn">메인페이지로</button>
+					<button type="button" id="deleteAccountBtn" name="deleteAccountBtn">회원탈퇴</button>
+					<button type="button" id="myOrderListBtn" name="myOrderListBtn">나의 예매내역</button>
+				</form>
+			</c:if> 
 		</div>
+			
+	</div>
 	</body>
 </html>

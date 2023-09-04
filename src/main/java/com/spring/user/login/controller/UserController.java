@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -63,24 +64,35 @@ public class UserController {
 		return "client/user/signUpForm";
 	}
 	
+	@ResponseBody
 	@PostMapping("/idChk")
-	public String idChk(UserVO uvo) {
+	public String idChk(String model, UserVO uvo) {
 		log.info("idChk 실행");
-		String id=uvo.getUserId();
-		int idChk = userService.idChk(id);
-		
-		String result;
+		int idChk = userService.idChk(uvo);
 		
 		if(idChk==0) {
-			result = "사용할 수 있는 아이디입니다.";
+			model = "사용가능";
 		} else {
-			result = "이미 존재하는 아이디입니다.";
+			model = "불가능";
 		}
-		log.info(result.toString());
-		return result;
-
+		log.info(model.toString());
+		return model;
 	}
 	
+	@PostMapping("signUp")
+	public String signUp(UserVO uvo) {
+		log.info("회원가입폼전달완료");
+		int result = userService.signUp(uvo);
+		
+		String url=null;
+		
+		if(result == 1) {
+			url="/client/user/login";
+		} else {
+			url="/client/user/signUpForm";
+		}
+		return url;
+	}
 
 	@GetMapping("findIdSelect")
 	public String findIdSelect() {
@@ -122,7 +134,13 @@ public class UserController {
 	@GetMapping("myPage")
 	public String myPage() {
 		log.info("마이페이지 진입성공");
-		return "client/user/myPage";
+		return "client/user/myPage";	
+	}
+	
+	@GetMapping("main")
+	public String main() {
+		log.info("메인페이지로 갈거야");
+		return "redirect:/";
 	}
 
 	@GetMapping("enterPw")
@@ -137,6 +155,10 @@ public class UserController {
 		return "client/user/updateInfo";
 	}
 	
+	/*
+	 * @PostMapping("updateInfoCmp") public String updateInfoCmp() {
+	 * log.info("마이페이지 수정 완료"); return userService.updateInfoCmp(); }
+	 */
 	@GetMapping("myOrderList")
 	public String myOrderList() {
 		log.info("나의 예매내역 진입");

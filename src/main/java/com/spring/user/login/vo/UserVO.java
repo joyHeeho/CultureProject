@@ -1,8 +1,7 @@
 package com.spring.user.login.vo;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 @Data
 public class UserVO {
