@@ -2,89 +2,7 @@
 <%@ taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/client/common/common.jspf" %>
 	
-	<script type="text/javascript">
-	/*
-	$(function(){
-		$("#idChk").click(function(){
-			$("#signUpForm").attr({
-				"method" : "post",
-				"action" : "/user/idChk"
-			})
-			$("#signUpForm").submit();
-		})
-		
-		$("#confirmBtn").click(function(){
-			if(!chkData("#userName", "아이디를")) return;
-			else if(!chkData("#userId", "비밀번호를")) return;
-			else if(!chkData("#userPw", "비밀번호를")) return;
-			else if(!chkData("#userEmail", "비밀번호를")) return;
-			else if(!chkData("#userPhone", "비밀번호를")) return;
-			else if(!chkData("#userBirth", "비밀번호를")) return;
-			else { 
-				$("#signUpForm").attr({
-					"method" : "post",
-					"action" : "/user/signUp"
-				})
-				$("#signUpForm").submit();
-			}	
-		})
-		$("#cancelBtn").click(function(){
-			$("#signUpForm").each(function(){
-				this.reset();  
-			  });
-		})
-		
-		$.ajax({
-			url : "/user/idChk",
-			type : "post",	
-			dataType : "text",	
-			success : function(data) {
-				alert(result);
-			}, error : (xhr, textStatus, errorThrown) => {
-					alert(textStatus + " (HTTP-   " + xhr.status + " / " + errorThrown + ")");   
-				  }
-	  }); //end of ajax	
-	})
-	*/
-	
-	/* function isUsernameValid(userId) {
-		var regex = /^[a-z0-9]{8,15}$/;
-		
-		if(regex.test(userId)) {
-			alert("사용할 수 있는 아이디 입니다.");
-		} else{
-			alert("영어 소문자와 숫자를 조합하여 8~15자리 사이로 입력하세요.")	
-		}
-	}
-	
-	$(function(){
-	    $("#idChk").click(function(){
-	        // 아이디 중복 체크 Ajax 요청
-			if(idCheck){
-				 $.ajax({
-			            url : "/user/idChk",
-			            type : "post",
-			            dataType : "text",
-			            data: {
-			                userId: $("#userId").val() // 아이디 값을 전달
-			            },
-			            success : function(result) {
-			                alert(result);
-			                $("#userId").val("");
-			                $("userId").focus();
-			            },
-			            error : (xhr, textStatus, errorThrown) => {
-							alert(textStatus + " (HTTP-   " + xhr.status + " / " + errorThrown + ")");   
-						  }
-			        });
-			    });
-			}
-	    else {
-	    	alert("이미 존재하는 아이디입니다. 영어 소문자, 숫자를 조합하여 8~15자 내외로 입력하세요.");
-	    }     
-	});
-	 */
-	 
+	<script type="text/javascript">	 
 	 function isUserIdValid(userId) {
 		    var regex = /^[a-z0-9]{8,15}$/;
 		    
@@ -141,20 +59,21 @@
 		    	isUserPwValid(userPw);
 		    })
 			$("#confirmBtn").click(function(){
-				$("#signUpForm").attr({
-						"method" : "post",
-						"action" : "/user/signUp"
-					})
-				$("#signUpForm").submit();
+				if(!chkData("#userName","이름을")) return;
+			    else if(!chkData("#userId","아이디를")) return;
+			    else if(!chkData("#userPw","비밀번호를")) return;
+			    else if(!chkData("#userEmail","이메일을")) return;
+			    else if(!chkData("#userPhone","핸드폰번호를")) return;
+			    else if(!chkData("#userBirth","생년월일을")) return;
+			    else{
+					$("#signUpForm").attr({
+							"method" : "post",
+							"action" : "/user/signUp"
+						})
+					$("#signUpForm").submit();
 			});
 		});
-		
-		
 	</script>
-
-
-
-
 	</head>
 	<body>
 		<div class="container">
@@ -185,11 +104,11 @@
 				<div>
 					<label>전화번호</label>
 					<input type="text" id="userPhone" name="userPhone"/>
-					<button type="button" id="phoneChk" name="phoneChk">이메일 인증</button>
+					<button type="button" id="phoneChk" name="phoneChk">핸드폰 인증</button>
 				</div>
 				<div>
 					<label>생년월일</label>
-					<input type="text" id="birth" name="birth" placeholder="000101형식으로 입력하세요" />
+					<input type="text" id="userBirth" name="userBirth" placeholder="000101형식으로 입력하세요" />
 				</div>
 				
 				<button type="button" id="confirmBtn" name="confirmBtn">회원가입</button>

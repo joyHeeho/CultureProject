@@ -87,7 +87,7 @@ public class UserController {
 		String url=null;
 		
 		if(result == 1) {
-			url="/client/user/login";
+			url="/client/user/loginUser";
 		} else {
 			url="/client/user/signUpForm";
 		}

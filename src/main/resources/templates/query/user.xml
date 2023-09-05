@@ -23,8 +23,8 @@
 
 	<insert id="signUp" parameterType="user">
 	    /* 회원가입 */
-	    INSERT INTO USERS(user_no, user_id, user_pw, user_email, user_phone, user_birth, user_type, user_date)
-	    VALUES (users_seq.nextval, #{userId}, #{userPw}, #{userEmail}, #{userPhone}, #{userBirth},'일반회원',sysdate)
+	    INSERT INTO USERS(user_no, user_name, user_id, user_pw, user_email, user_phone, user_birth, user_type, user_date)
+	    VALUES (users_seq.nextval, #{userName}, #{userId}, #{userPw}, #{userEmail}, #{userPhone}, #{userBirth}, 'normal',sysdate)
 	</insert>
 	
 	<select id="idChk" parameterType="user" resultType="int">
