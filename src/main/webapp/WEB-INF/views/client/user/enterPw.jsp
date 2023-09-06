@@ -2,15 +2,37 @@
 <%@ taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/client/common/common.jspf" %>
 	<script type="text/javascript">
-		$(function(){
-			$("#enterPwBtn").click(function(){
-				$("#pwEnterForm").attr({
-					"method" : "post",
-					"action" : "/user/updateInfo"		
+	$(function(){
+		$("#enterPwBtn").click(function(){
+			let userPw = $("#userPw").val();
+			let userId = $("#userId").val();
+				$.ajax({
+					type : "post",
+					url : "/user/pwChk",
+					data : {userPw : userPw, userId : userId},
+					success : function(result) {
+						if(result === "같다") {
+							$("#pwEnterForm").attr({
+								method : "post",
+								action : "/user/updateMyPageForm"
+							})
+							$("#pwEnterForm").submit();
+							}else {
+							alert("비밀번호를 다시 입력하세요.")
+							$("#userPw").val("");
+							$("#userPw").focus();
+						}
+					}, error : function(){
+						alert("서버오류");
+					}
 				});
-				$("#pwEnterForm").submit();
-			})
-		})
+		});
+		
+		$("#cancelBtn").click(function(){
+			location.href="/user/myPage"
+			});
+	})
+		
 	</script>
 	</head>
 	<body>
@@ -19,6 +41,7 @@
 				<img src="/resources/image/cultureLogo.jpg">
 			</div>
 			<form id="pwEnterForm">
+				<input type="hidden" id="userId" name="userId" value="${userLogin.userId}">
 				<input type="password" id="userPw" name="userPw" placeholder="비밀번호를 입력하세요">
 				<button type="button" id="enterPwBtn" name="enterPwBtn">확인</button>
 				<button type="button" id="cancelBtn" name="cancelBtn">취소</button>

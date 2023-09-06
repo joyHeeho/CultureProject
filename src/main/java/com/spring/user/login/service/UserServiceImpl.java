@@ -35,6 +35,26 @@ public class UserServiceImpl implements UserService {
 		return userDAO.idChk(uvo);
 	}
 
+	@Override
+	public int updateMyPage(UserVO uvo) {
+		return userDAO.updateMyPage(uvo);
+	}
+
+	@Override
+	public int pwChk(UserVO uvo) {
+		int result = 0;
+		result = userDAO.pwChk(uvo);
+		return result;
+	}
+
+	@Override
+	public UserVO myPage(UserVO uvo) {
+		UserVO user = userDAO.myPage(uvo);
+		return user;
+	}
+
+	
+	
 	
 	
 	

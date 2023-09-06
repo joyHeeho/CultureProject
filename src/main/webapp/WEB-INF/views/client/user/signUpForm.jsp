@@ -2,9 +2,12 @@
 <%@ taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/client/common/common.jspf" %>
 	
-	<script type="text/javascript">	 
-	 function isUserIdValid(userId) {
-		    var regex = /^[a-z0-9]{8,15}$/;
+	<script type="text/javascript">
+	  let idCheckPassed = false;
+      let pwCheckPassed = false;
+      
+		function isUserIdValid(userId) {
+		    let regex = /^[a-z0-9]{6,15}$/;
 		    
 		    if (regex.test(userId)) {
 		        // 유효성 검사 통과
@@ -18,8 +21,9 @@
 		            success: function(result) {
 		                if (result === "사용가능") { // === 연산자 사용
 		                    alert("사용할 수 있는 아이디 입니다.");
+		                	idCheckPassed = true;
 		                } else {
-		                    alert("이미 존재하는 아이디입니다. 영어 소문자, 숫자를 조합하여 8~15자 내외로 입력하세요.");
+		                    alert("이미 존재하는 아이디입니다. 영어 소문자, 숫자를 조합하여 6~15자 내외로 입력하세요.");
 		                    $("#userId").val("");
 			                $("#userId").focus();
 		                }
@@ -29,19 +33,20 @@
 		            }
 		        });
 		    } else {
-		        alert("영어 소문자와 숫자를 조합하여 8~15자리 사이로 입력하세요.");
+		        alert("영어 소문자와 숫자를 조합하여 6~15자리 사이로 입력하세요.");
 		    }
 		}
 	 
 
 	 function isUserPwValid(userPw) {
-	     var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!])[A-Za-z\d@#$%^&+=!]{12,20}$/;
+	     var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!])[A-Za-z\d@#$%^&+=!]{9,20}$/;
 	     
 	     if (regex.test(userPw)) {
 	         // 유효성 검사 통과
 	         $("#msg").text("적합한 비밀번호입니다.");
+	         pwCheckPassed = true;
 	     } else {
-	         $("#msg").text("사용할 수 없는 비밀번호 입니다. 소문자, 대문자, 숫자, 특수문자를 조합하여 12~20자 내외로 입력하세요.").css("red");
+	         $("#msg").text("사용할 수 없는 비밀번호 입니다. 소문자, 대문자, 숫자, 특수문자를 조합하여 9~20자 내외로 입력하세요.").css("red");
 	         $("#userPw").val(""); // 비밀번호 필드를 비웁니다.
 	         $("#userPw").focus();
 	     }
@@ -49,30 +54,37 @@
 	 
 		// 아이디 확인 버튼 클릭 시 유효성 검사 및 중복 체크 수행
 		$(function() {
+          
 		    $("#idChk").click(function() {
-		        var userId = $("#userId").val();
-		        isUserIdValid(userId);
+		        let userId = $("#userId").val();
+		        isUserIdValid(userId); 
 		    });
 		    
 		    $("#PwChk").click(function(){
-		    	var userPw = $("#userPw").val();
+		    	let userPw = $("#userPw").val();
 		    	isUserPwValid(userPw);
 		    })
 			$("#confirmBtn").click(function(){
 				if(!chkData("#userName","이름을")) return;
-			    else if(!chkData("#userId","아이디를")) return;
-			    else if(!chkData("#userPw","비밀번호를")) return;
-			    else if(!chkData("#userEmail","이메일을")) return;
-			    else if(!chkData("#userPhone","핸드폰번호를")) return;
-			    else if(!chkData("#userBirth","생년월일을")) return;
-			    else{
-					$("#signUpForm").attr({
+	            else if(!chkData("#userId","아이디를")) return;
+	            else if(!chkData("#userPw","비밀번호를")) return;
+	            else if(!chkData("#userEmail","이메일을")) return;
+	            else if(!chkData("#userPhone","핸드폰번호를")) return;
+	            else if(!chkData("#userBirth","생년월일을")) return;
+				else{
+					if(idCheckPassed && pwCheckPassed) {
+						$("#signUpForm").attr({
 							"method" : "post",
 							"action" : "/user/signUp"
-						})
-					$("#signUpForm").submit();
+						});
+						$("#signUpForm").submit();
+					} else {
+						alert("중복체크가 완료되지 않았습니다.");
+					}	
+				}
 			});
-		});
+		}); 
+		
 	</script>
 	</head>
 	<body>
@@ -92,7 +104,7 @@
 				</div>
 				<div>
 					<label>비밀번호</label>
-					<input type="password" id="userPw" name="userPw" placeholder="비밀번호를 입력해 주세요." />
+					<input type="password" id="userPw" name="userPw" maxlength="20" placeholder="비밀번호를 입력해 주세요." />
 					<button type="button" id="PwChk" name="PwChk">비밀번호체크</button>
 					<span id="msg"></span>				
 				</div>
@@ -108,7 +120,7 @@
 				</div>
 				<div>
 					<label>생년월일</label>
-					<input type="text" id="userBirth" name="userBirth" placeholder="000101형식으로 입력하세요" />
+					<input type="text" id="userBirth" name="userBirth" placeholder="000101형식으로 입력하세요" maxlength="6"/>
 				</div>
 				
 				<button type="button" id="confirmBtn" name="confirmBtn">회원가입</button>

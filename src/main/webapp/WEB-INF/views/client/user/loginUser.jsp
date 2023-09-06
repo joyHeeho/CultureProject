@@ -28,7 +28,7 @@
 				location.href = "/user/logout"
 			});
 			$("#myPageBtn").click(function(){
-				location.href="/user/myPage"
+				location.href = "/user/myPage"
 			})
 			
 		})

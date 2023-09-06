@@ -15,7 +15,7 @@ public class TestUserLogin {
 	
 	@Setter(onMethod_ = @Autowired)
 	private UserDAO userDAO;
-	
+/*	
 	@Test
 	public void login() {
 		UserVO uvo = new UserVO();
@@ -36,5 +36,41 @@ public class TestUserLogin {
 		
 		log.info("result : " + result);
 	}
-
+*/
+/*
+ * @Test public void insertTest() { UserVO uvo = new UserVO();
+ * 
+ * uvo.setUserId("user123456"); uvo.setUserPw("Wpqkfehldjwnj!1");
+ * uvo.setUserEmail("kim21670@naver.com"); uvo.setUserPhone("01021212121");
+ * uvo.setUserBirth("990909"); uvo.setUserDate("sysdate");
+ * uvo.setUserName("헤헤"); int result = userDAO.signUp(uvo);
+ * 
+ * log.info("result : " + result);
+ * 
+ * }
+ */
+/*
+ * @Test public void pwChk() { UserVO uvo = new UserVO();
+ * 
+ * uvo.setUserId("user123456"); uvo.setUserPw("Wpqkfehldjwnj!1");
+ * 
+ * int result = userDAO.pwChk(uvo);
+ * 
+ * log.info("result : " + result); }
+ */
+	
+	@Test 
+	public void updateMyPage() { 
+		UserVO uvo = new UserVO();
+		
+		uvo.setUserId("u0");
+		uvo.setUserPw("u000");
+		uvo.setUserEmail("user123456");
+		uvo.setUserPhone("000000");
+		
+		int result = userDAO.updateMyPage(uvo);
+		log.info("result : " + result);
+		}
+		
+	
 }

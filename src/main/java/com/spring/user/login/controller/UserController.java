@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -133,7 +134,7 @@ public class UserController {
 	
 	@GetMapping("myPage")
 	public String myPage() {
-		log.info("마이페이지 진입성공");
+		log.info("마이페이지 진입성공");		
 		return "client/user/myPage";	
 	}
 	
@@ -148,17 +149,48 @@ public class UserController {
 		log.info("정보수정을 위한 비밀번호 입력");
 		return "client/user/enterPw";
 	}
-	
-	@PostMapping("updateInfo")
-	public String updateInfo() {
-		log.info("마이페이지 수정");
-		return "client/user/updateInfo";
+
+	@ResponseBody
+	@PostMapping("pwChk")
+	public String pwdConfirm(String model, UserVO uvo) {
+		log.info("pwChk 실행");
+		int pwChk = userService.pwChk(uvo);
+		log.info("id = " + uvo.getUserId());
+		if(pwChk == 1) {
+			model = "같다";
+		} else {
+			model = "다르다";
+		}
+		log.info(model.toString());
+		return model;
+		
 	}
 	
-	/*
-	 * @PostMapping("updateInfoCmp") public String updateInfoCmp() {
-	 * log.info("마이페이지 수정 완료"); return userService.updateInfoCmp(); }
-	 */
+	//히든을 위해,,,
+	@PostMapping("updateMyPageForm")
+	public String updateMyPageForm(@ModelAttribute UserVO uvo, Model model) {
+		log.info("마이페이지 수정폼이다");
+		log.info("userId = " + uvo.getUserId());
+		UserVO user = userService.myPage(uvo);
+		model.addAttribute("user", user);
+		return "client/user/updateMyPage";
+	}
+
+	
+	@PostMapping("updateMyPage") 
+	public String updateMyPage(UserVO uvo, String model) { 
+		log.info("마이페이지 수정폼을 넘기고 있다." + uvo.getUserId()); 
+		int result = userService.updateMyPage(uvo);
+		log.info("마이페이지 수정폼을 넘겼다 result : " + result);
+		if(result == 1) {
+			return "redirect:/user/myPage";
+		}else {
+			model = "수정 실패";
+			return model; 
+		}
+		
+	}
+
 	@GetMapping("myOrderList")
 	public String myOrderList() {
 		log.info("나의 예매내역 진입");
