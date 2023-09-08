@@ -14,17 +14,17 @@
         <result column="user_date" property="userDate"/>
 	</resultMap>
   -->
-	<select id="login" parameterType="user" resultType="user">
+	<select id="userLogin" parameterType="user" resultType="user">
       SELECT   user_no userNo, user_id userId, user_pw userPw, user_name userName, user_email userEmail, 
-       user_phone userPhone, user_birth userBirth, user_type userType, user_date userDate
+       user_phone userPhone, user_birth userBirth, user_type userType, user_date userDate, user_delete userDelete
       FROM   USERS
       WHERE user_id = #{userId} and user_pw = #{userPw}
 	</select>
 
 	<insert id="signUp" parameterType="user">
     <!-- 회원가입 -->
-    INSERT INTO USERS(user_no, user_name, user_id, user_pw, user_email, user_phone, user_birth, user_type, user_date)
-    VALUES (users_seq.nextval, #{userName}, #{userId}, #{userPw}, #{userEmail}, #{userPhone}, #{userBirth}, 'normal', sysdate)
+    INSERT INTO USERS(user_no, user_name, user_id, user_pw, user_email, user_phone, user_birth, user_type)
+    VALUES (users_seq.nextval, #{userName}, #{userId}, #{userPw}, #{userEmail}, #{userPhone}, #{userBirth}, 'normal')
 	</insert>
 	
 	<select id="idChk" parameterType="user" resultType="int">
@@ -35,7 +35,7 @@
 	</select>
 	
 	<select id="pwChk" parameterType="user" resultType="int">
-		/* 비밀번호 중복확인 */
+		/* 비밀번호 확인 */
 		SELECT count(*)
 		FROM USERS
 		WHERE user_id=#{userId} and user_pw=#{userPw}
@@ -43,7 +43,7 @@
 	
 	<select id="myPage" parameterType="user" resultType="user">
 		SELECT   user_no userNo, user_id userId, user_pw userPw, user_name userName, user_email userEmail, 
-		user_phone userPhone, user_birth userBirth, user_type userType, user_date userDate
+		user_phone userPhone, user_birth userBirth, user_date userDate
 		FROM   USERS
 		WHERE user_id=#{userId} 
 	</select>
@@ -61,11 +61,20 @@
 		WHERE user_id=#{userId}
 	</update>
 	
-	<delete id="myPageDelete" parameterType="user" >
+	<update id="deleteAccount" parameterType="user">
+		UPDATE USERS
+		SET user_delete = 1
+		WHERE user_id=#{userId} and user_pw=#{userPw}
+	</update>
+	
+	<!-- 
+	<delete id="deleteAccount" parameterType="user" >
 		/* 회원 탈퇴 */
 		DELETE FROM USERS
 		WHERE user_id=#{userId} and user_pw=#{userPw}
 	</delete>
+	 -->
+	 
  
 	
 </mapper>

@@ -17,10 +17,10 @@ public class UserServiceImpl implements UserService {
 	private UserDAO userDAO;
 
 	@Override
-	public UserVO login(UserVO uvo) {
+	public UserVO userLogin(UserVO uvo) {
 
-		UserVO userVO = userDAO.login(uvo);
-		log.info("" + uvo);
+		UserVO userVO = userDAO.userLogin(uvo);
+		log.info("login결과" + uvo);
 		return userVO;
 	}
 
@@ -51,6 +51,12 @@ public class UserServiceImpl implements UserService {
 	public UserVO myPage(UserVO uvo) {
 		UserVO user = userDAO.myPage(uvo);
 		return user;
+	}
+
+	@Override
+	public int deleteAccount(UserVO uvo) {
+		int result = userDAO.deleteAccount(uvo);
+		return result;
 	}
 
 	

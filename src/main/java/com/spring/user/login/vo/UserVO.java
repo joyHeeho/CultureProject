@@ -14,4 +14,5 @@ public class UserVO {
 	private String userBirth;
 	private String userType;
 	private String userDate;
+	private int userDelete;
 }

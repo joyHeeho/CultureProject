@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,31 +26,51 @@ public class UserController {
 	@Setter(onMethod_ = @Autowired)
 	public UserService userService;
 	
+	
 	@GetMapping("/loginUser")
 	public String login() {
 		log.info("로그인 페이지 성공");
 		return "client/user/loginUser";
 	}
-	
+
+
 	@PostMapping("/login")
 	public String loginForm(UserVO uvo, Model model, RedirectAttributes ras) {
 		log.info("loginForm 메서드 성공");
-		UserVO userLogin = userService.login(uvo);	//로그인 정보 세션에 담기, 로그인 메서드 + 쿼리 id = login 
-	
+		UserVO userLogin = userService.userLogin(uvo);	//로그인 정보 세션에 담기, 로그인 메서드 + 쿼리 id = login 
+		log.info("userLogin" + userLogin);
+		log.info("확인" +userLogin);
 		String url=null;
 		
-		if(userLogin != null) {
+		if (userLogin != null && userLogin.getUserDelete() != 1 ) {
 			model.addAttribute("userLogin", userLogin);
 			log.info("로그인 성공");
 			url = "redirect:/";
 		} else {
 			ras.addAttribute("msg", "로그인 실패");
 			log.info("로그인 실패");
-			url = "/client/user/loginUser";
+			url = "redirect:/client/user/loginUser";
 		}
 		return url;
 	}
-	
+
+	/*
+	 * @PostMapping("/login") public String loginForm(UserVO uvo, Model model,
+	 * RedirectAttributes ras) { log.info("loginForm 메서드 성공"); UserVO userLogin =
+	 * userService.userLogin(uvo); // 로그인 정보 세션에 담기, 로그인 메서드 + 쿼리 id = login
+	 * log.info("userLogin" + userLogin); log.info("확인" + userLogin); String url =
+	 * null;
+	 * 
+	 * if (userLogin != null) { if (userLogin.getUserDelete() != 1) {
+	 * model.addAttribute("userLogin", userLogin); log.info("로그인 성공"); url =
+	 * "redirect:/"; } else { ras.addAttribute("msg", "계정이 삭제되었습니다.");
+	 * log.info("계정이 삭제되었습니다."); url = "redirect:/client/user/loginUser"; } } else {
+	 * ras.addAttribute("msg", "로그인 실패"); log.info("로그인 실패"); url =
+	 * "redirect:/client/user/loginUser"; }
+	 * 
+	 * return url; }
+	 */
+
 	@RequestMapping("/logout")
 	   public String logout(SessionStatus sessionStatus) {
 	      log.info("user 로그아웃 처리");
@@ -138,6 +157,12 @@ public class UserController {
 		return "client/user/myPage";	
 	}
 	
+	@GetMapping("myPage1")
+	public String myPage1() {
+		log.info("수정된 마이페이지 진입성공");		
+		return "client/user/myPage";	
+	}
+	
 	@GetMapping("main")
 	public String main() {
 		log.info("메인페이지로 갈거야");
@@ -166,13 +191,13 @@ public class UserController {
 		
 	}
 	
-	//히든을 위해,,,
+	//히든 때문에 ModelAttribute 써줬는데 쓸 필요가 없었네,,
 	@PostMapping("updateMyPageForm")
-	public String updateMyPageForm(@ModelAttribute UserVO uvo, Model model) {
+	public String updateMyPageForm(/* @ModelAttribute UserVO uvo, Model model */UserVO uvo) {
 		log.info("마이페이지 수정폼이다");
 		log.info("userId = " + uvo.getUserId());
-		UserVO user = userService.myPage(uvo);
-		model.addAttribute("user", user);
+		//UserVO user = userService.myPage(uvo);
+		//model.addAttribute("user", user);
 		return "client/user/updateMyPage";
 	}
 
@@ -183,23 +208,49 @@ public class UserController {
 		int result = userService.updateMyPage(uvo);
 		log.info("마이페이지 수정폼을 넘겼다 result : " + result);
 		if(result == 1) {
-			return "redirect:/user/myPage";
+			UserVO userLogin = userService.myPage(uvo);
+			log.info("새로운 정보를 가져올 수 있을까 없을까? " + userLogin.toString());
+			//return"/user/myPage";
+			return "redirect:/";
 		}else {
 			model = "수정 실패";
 			return model; 
 		}
 		
+		
 	}
-
+	
+	@GetMapping("enterPw2")
+	public String enterPw2() {
+		log.info("정보수정을 위한 비밀번호 입력");
+		return "client/user/enterPw2";
+	}
+	
+	@PostMapping("deleteAccount")
+	public String deleteAccount(UserVO uvo, SessionStatus sessionStatus) {
+		log.info("탈퇴쿼리문직전");
+		int result = userService.deleteAccount(uvo);
+		log.info("result : " + result);
+		//log.info(uvo.getUserDelete());
+		String url = null;
+		if(result==1) {
+			log.info("user 탈퇴성공");
+			sessionStatus.setComplete();
+		    url = "redirect:/";
+		} else {
+			log.info("user 탈퇴 실패");
+			url = "client/user/enterPw2";
+		}
+		return url;
+	}
+	
+	
+	
 	@GetMapping("myOrderList")
-	public String myOrderList() {
+	public String myOrderList(UserVO uvo) {
 		log.info("나의 예매내역 진입");
 		return "client/user/myOrderList";
 	}
 	
-	@GetMapping("deleteAccount")
-	public String deleteAccount() {
-		log.info("회원탈퇴");
-		return "client/user/deleteAccount";
-	}
+	
 }

@@ -2,8 +2,9 @@
 <%@ taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/client/common/common.jspf" %>
 	
-	<script type="text/javascript">
-		$(function(){
+	<!-- <script type="text/javascript">
+		
+	$(function(){
 			$("#loginBtn").click(function(){
 				$("#loginForm").attr({
 					"method" : "post",
@@ -32,6 +33,77 @@
 			})
 			
 		})
+	</script> -->
+	
+	<script type="text/javascript">
+	$(function(){
+		/* $("#loginBtn").click(function(){
+			let userId = $("#userId").val();
+			let userPw = $("#userPw").val();
+				$.ajax({
+					type:"post",
+					url : "/user/loginForm"
+					data : {userPw : userPw, userId : userId},
+					success : function(result) {
+						if(result === "실패") {
+							alert("아이디나 비밀번호를 잘못 입력하셨습니다.")
+						} else if(result === "탈퇴") {
+							alert("탈퇴한 회원입니다.");
+						}
+					}, error : function(){
+						alert("서버 오류입니다.");
+					}
+				});
+		}); 
+		$("#loginBtn").click(function(){
+			let userId = $("#userId").val();
+			let userPw = $("#userPw").val();
+				$.ajax({
+					type:"post",
+					url : "/user/loginForm"
+					data: { userPw: userPw, userId: userId },
+					success : function(result) {
+						if(result === "3") {
+							alert("아이디나 비밀번호를 잘못 입력하셨습니다.")
+						} else if(result === "2") {
+							alert("탈퇴한 회원입니다.");
+						} else{
+							$("#loginForm").attr({
+								"method" : "post",
+								"action" : "/user/login"
+							});
+							$("#loginForm").submit();
+						}
+					}
+				});
+				*/
+				$("#loginBtn").click(function(){
+					$("#loginForm").attr({
+						"method" : "post",
+						"action" : "/user/login"
+					});
+					$("#loginForm").submit();
+				});
+		$("#signUpBtn").click(function(){
+			location.href="/user/signUpForm"
+		});
+		
+		$("#findIdBtn").click(function(){
+			location.href="/user/findIdSelect"
+		});
+		
+		$("#findPwdBtn").click(function(){
+			location.href="/user/findPwSelect"
+		})
+		
+		$("#logoutBtn").click(function(){
+			location.href = "/user/logout"
+		});
+		$("#myPageBtn").click(function(){
+			location.href = "/user/myPage"
+		});
+		
+	})
 	</script>
 
 	</head>
@@ -51,6 +123,7 @@
 							<label>비밀번호</label>
 							<input type="password" name="userPw" id="userPw">
 						</div>
+				
 						<button type="button" id="loginBtn" name="loginBtn">로그인</button>
 						<button type="button" id="signUpBtn" name="signUpBtn">회원가입</button>
 						<button type="button" id="findIdBtn" name="findIdBtn">아이디 찾기</button>

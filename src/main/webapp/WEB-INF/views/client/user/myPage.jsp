@@ -7,7 +7,7 @@
 				location.href="/user/enterPw";
 			})
 			$("#deleteAccountBtn").click(function(){
-				location.href="/user/deleteAccount";
+				location.href="/user/enterPw2";
 			})
 			$("#mainPageBtn").click(function(){
 				location.href="/user/main";
