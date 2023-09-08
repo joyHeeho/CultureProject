@@ -33,43 +33,40 @@ public class UserController {
 		return "client/user/loginUser";
 	}
 
-
+	@ResponseBody
 	@PostMapping("/login")
-	public String loginForm(UserVO uvo, Model model, RedirectAttributes ras) {
-		log.info("loginForm 메서드 성공");
+	public String loginForm(UserVO uvo, String model) {
+		log.info("정상 or 탈퇴 or 틀렸는지 가려보자고");
 		UserVO userLogin = userService.userLogin(uvo);	//로그인 정보 세션에 담기, 로그인 메서드 + 쿼리 id = login 
-		log.info("userLogin" + userLogin);
 		log.info("확인" +userLogin);
-		String url=null;
 		
-		if (userLogin != null && userLogin.getUserDelete() != 1 ) {
-			model.addAttribute("userLogin", userLogin);
-			log.info("로그인 성공");
-			url = "redirect:/";
-		} else {
-			ras.addAttribute("msg", "로그인 실패");
-			log.info("로그인 실패");
-			url = "redirect:/client/user/loginUser";
-		}
-		return url;
+		if(userLogin == null) {//세션에 안담김
+			model = "1";
+		} else if(userLogin.getUserDelete() == 1) {	//탈퇴회원
+			model = "2";
+		} else {//정상접근
+			model = "3";
+		}	
+		return model;
 	}
 
-	/*
-	 * @PostMapping("/login") public String loginForm(UserVO uvo, Model model,
-	 * RedirectAttributes ras) { log.info("loginForm 메서드 성공"); UserVO userLogin =
-	 * userService.userLogin(uvo); // 로그인 정보 세션에 담기, 로그인 메서드 + 쿼리 id = login
-	 * log.info("userLogin" + userLogin); log.info("확인" + userLogin); String url =
-	 * null;
-	 * 
-	 * if (userLogin != null) { if (userLogin.getUserDelete() != 1) {
-	 * model.addAttribute("userLogin", userLogin); log.info("로그인 성공"); url =
-	 * "redirect:/"; } else { ras.addAttribute("msg", "계정이 삭제되었습니다.");
-	 * log.info("계정이 삭제되었습니다."); url = "redirect:/client/user/loginUser"; } } else {
-	 * ras.addAttribute("msg", "로그인 실패"); log.info("로그인 실패"); url =
-	 * "redirect:/client/user/loginUser"; }
-	 * 
-	 * return url; }
-	 */
+	  @PostMapping("/loginProcess") 
+	  public String loginProcess(UserVO uvo, Model model,RedirectAttributes ras) { 
+		  log.info("이게 진짜 로그인이야 "); 
+		  UserVO userLogin = userService.userLogin(uvo); // 로그인 정보 세션에 담기, 로그인 메서드 + 쿼리 id = login
+		  log.info("userLogin" + userLogin); 
+		  String url;
+		  if(userLogin != null) {
+			  model.addAttribute("userLogin", userLogin);
+			  log.info("로그인 성공");
+			  url = "redirect:/";
+		  } else {
+			  log.info("알 수 없는 오류발생,, 모가 문제지?");
+			  url = "/user/login";
+		  }
+		  return url;
+	  }
+
 
 	@RequestMapping("/logout")
 	   public String logout(SessionStatus sessionStatus) {
@@ -99,7 +96,7 @@ public class UserController {
 		return model;
 	}
 	
-	@PostMapping("signUp")
+	@PostMapping("/signUp")
 	public String signUp(UserVO uvo) {
 		log.info("회원가입폼전달완료");
 		int result = userService.signUp(uvo);
@@ -114,54 +111,50 @@ public class UserController {
 		return url;
 	}
 
-	@GetMapping("findIdSelect")
+	@GetMapping("/findIdSelect")
 	public String findIdSelect() {
 		log.info("성공");
 		return "client/user/findIdSelect";
 	}
 	
-	@GetMapping("findIdEmailForm")
+	@GetMapping("/findIdEmailForm")
 	public String findIdEmailForm() {
 		log.info("성공");
 		return "client/user/findIdEmailForm";
 	}
 	
-	@GetMapping("findIdPhoneForm")
+	@GetMapping("/findIdPhoneForm")
 	public String findIdPhoneForm() {
 		log.info("성공");
 		return "client/user/findIdPhoneForm";
 	}
 	
 
-	@GetMapping("findPwSelect")
+	@GetMapping("/findPwSelect")
 	public String findPwSelect() {
 		log.info("성공");
 		return "client/user/findPwSelect";
 	}
 	
-	@GetMapping("findPwEmailForm")
+	@GetMapping("/findPwEmailForm")
 	public String findPwEmailForm() {
 		log.info("성공");
 		return "client/user/findPwEmailForm";
 	}
 	
-	@GetMapping("findPwPhoneForm")
+	@GetMapping("/findPwPhoneForm")
 	public String findPwPhoneForm() {
 		log.info("성공");
 		return "client/user/findPwPhoneForm";
 	}
 	
-	@GetMapping("myPage")
+	@GetMapping("/myPage")
 	public String myPage() {
 		log.info("마이페이지 진입성공");		
 		return "client/user/myPage";	
 	}
 	
-	@GetMapping("myPage1")
-	public String myPage1() {
-		log.info("수정된 마이페이지 진입성공");		
-		return "client/user/myPage";	
-	}
+	
 	
 	@GetMapping("main")
 	public String main() {
@@ -191,17 +184,16 @@ public class UserController {
 		
 	}
 	
-	//히든 때문에 ModelAttribute 써줬는데 쓸 필요가 없었네,,
+
 	@PostMapping("updateMyPageForm")
-	public String updateMyPageForm(/* @ModelAttribute UserVO uvo, Model model */UserVO uvo) {
+	public String updateMyPageForm(UserVO uvo) {
 		log.info("마이페이지 수정폼이다");
 		log.info("userId = " + uvo.getUserId());
-		//UserVO user = userService.myPage(uvo);
-		//model.addAttribute("user", user);
+
 		return "client/user/updateMyPage";
 	}
 
-	
+/* 세션이 바뀌지않지만 실행은 되는,,,
 	@PostMapping("updateMyPage") 
 	public String updateMyPage(UserVO uvo, String model) { 
 		log.info("마이페이지 수정폼을 넘기고 있다." + uvo.getUserId()); 
@@ -210,15 +202,56 @@ public class UserController {
 		if(result == 1) {
 			UserVO userLogin = userService.myPage(uvo);
 			log.info("새로운 정보를 가져올 수 있을까 없을까? " + userLogin.toString());
-			//return"/user/myPage";
-			return "redirect:/";
+			return "redirect:/user/myPage";
+			//model = 1;
 		}else {
-			model = "수정 실패";
-			return model; 
+			model = "2";
 		}
-		
-		
+		return model; 
 	}
+*/
+	@PostMapping("updateMyPage") 
+	public String updateMyPage(UserVO uvo, Model model, SessionStatus sessionStatus) { 
+		log.info("마이페이지 수정폼을 넘기고 있다." + uvo.getUserId()); 
+		int result = userService.updateMyPage(uvo);
+		log.info("마이페이지 수정폼을 넘겼다 result : " + result);
+		String url=null;
+		if(result == 1) {
+			/*log.info("세션종료한다?");
+			sessionStatus.setComplete();
+			log.info("세션종료됐다!!");
+			log.info("새 세션에 담는다?");
+			UserVO newSession = userService.myPage(uvo);
+			model.addAttribute("newSession", newSession);
+			log.info("새로운 세션을 가져올 수 있을까 없을까? " + newSession.toString());
+			url =  "redirect:/user/myPage";
+			//url = "client/user/newMyPage";
+			//model = 1;*/
+			
+			UserVO newSession = userService.myPage(uvo);
+			
+			log.info(newSession.toString());
+			model.addAttribute("userLogin", newSession);
+			url =  "redirect:/user/myPage";
+		}
+		return url;
+	}
+
+/*	새로운 세션에 담을 수 이씅ㄹ까없을까,, 여기 가지도 못해ㅠㅠㅠ
+	@GetMapping("newSession")
+	public String newSession(UserVO uvo, Model model) {
+		log.info("수정된 마이페이지 진입성공");	
+		UserVO newSession = userService.userLogin(uvo);	//로그인 정보 세션에 담기, 로그인 메서드 + 쿼리 id = login 
+		log.info("확인" +newSession);
+		String url = null;
+		if(newSession != null) {
+			model.addAttribute("newSession", newSession);
+			url = "redirect:/mypage";
+		}
+		return url;
+	}
+
+	*/
 	
 	@GetMapping("enterPw2")
 	public String enterPw2() {

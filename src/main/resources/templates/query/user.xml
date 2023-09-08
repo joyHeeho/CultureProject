@@ -49,17 +49,18 @@
 	</select>
 	
 	<update id="updateMyPage" parameterType="user">
-		/*정보 수정 */
-		UPDATE USERS  
-		SET	
-		<choose>
-			<when test="userPw != null and userPw != ''"> user_pw = #{userPw}</when>
-			<when test="userEmail != null and userEmail != ''"> user_email = #{userEmail}</when>
-			<when test="userPhone != null and userPhone != ''"> user_phone = #{userPhone}</when>
-			<otherwise> 1=1</otherwise>
-		</choose>
-		WHERE user_id=#{userId}
-	</update>
+      /*정보 수정 */
+      UPDATE USERS  
+      <set>
+         user_id = #{userId}
+         <if test="userPw != ''"> , user_pw = #{userPw}</if>
+         <if test="userEmail != ''"> , user_email = #{userEmail}</if>
+         <if test="userPhone != ''"> , user_phone = #{userPhone}</if>
+        
+      </set>
+      WHERE user_id=#{userId}
+   </update>
+
 	
 	<update id="deleteAccount" parameterType="user">
 		UPDATE USERS

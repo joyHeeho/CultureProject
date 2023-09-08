@@ -36,6 +36,13 @@
 	</script> -->
 	
 	<script type="text/javascript">
+	
+	function resetData(){
+		$("#userId").val("");
+		$("#userPw").val("");
+		$("#userId").focus();
+	}
+	
 	$(function(){
 		/* $("#loginBtn").click(function(){
 			let userId = $("#userId").val();
@@ -77,13 +84,42 @@
 					}
 				});
 				*/
+			/* 	
 				$("#loginBtn").click(function(){
 					$("#loginForm").attr({
 						"method" : "post",
 						"action" : "/user/login"
 					});
 					$("#loginForm").submit();
-				});
+				}); */
+				
+				$("#loginBtn").click(function(){
+					let userPw = $("#userPw").val();
+					let userId = $("#userId").val();
+						$.ajax({
+							type : "post",
+							url : "/user/login",
+							data : {userPw : userPw, userId : userId},
+							success : function(result) {
+								if(result === "3") {
+									$("#loginForm").attr({
+										method : "post",
+										action : "/user/loginProcess"
+									})
+									$("#loginForm").submit();
+									}else if(result === "2") {
+									alert("탈퇴한 회원입니다. 새로운 계정으로 로그인 해주세요.");
+									resetData();
+								} else {
+									alert("아이디 또는 비밀번호를 잘못 입력하셨습니다.");
+									resetData();
+								}
+							}, error : function(){
+								alert("서버오류");
+							}
+						});
+					})
+				
 		$("#signUpBtn").click(function(){
 			location.href="/user/signUpForm"
 		});

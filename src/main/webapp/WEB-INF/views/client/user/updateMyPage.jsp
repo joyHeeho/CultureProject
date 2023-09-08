@@ -3,14 +3,38 @@
 <%@ include file="/WEB-INF/views/client/common/common.jspf" %>
 	<script type="text/javascript">
 		$(function(){
+		
 			$("#updateMyPageBtn").click(function(){
 				$("#myPageForm").attr({
 					"method" : "post",
 					"action" : "/user/updateMyPage"
 				});
 				$("#myPageForm").submit();
-			});
-			
+			}); 
+				/*
+			$("#updateMyPageBtn").click(function(){
+				let userId = $("#userId").val();
+				let userPw = $("#userPw").val();
+				let userEmail = $("#userEmail").val();
+				let userPhone = $("#userPhone").val();
+					$.ajax({
+						type : "post",
+						url : "/user/updateMyPage",
+						data : {userId : userId, userPw : userPw, userEmail : userEmail, userPhone : userPhone},
+						success : function(result) {
+							if(result === 1) {
+								$("#myPageForm").attr({
+									method : "post",
+									action : "/user/newSession"
+								})
+								$("#myPageForm").submit();
+							} 
+						}, error : function(){
+							alert("서버오류");
+						}
+					});
+				})*/
+		
 			$("#cancelBtn").click(function(){
 				location.href="/user/main";
 			});
@@ -24,8 +48,9 @@
 			<div class="logo">
 				<img src="/resources/image/cultureLogo.jpg">
 			</div>
-			<c:if test="${empty adminLogin}">
+			<c:if test="${empty userLogin}">
 				<form class="form-signin" id="loginForm">
+				<h1>로그인을 해주세용</h1>
 				</form>
 			</c:if>
 			<c:if test = "${not empty userLogin}">
