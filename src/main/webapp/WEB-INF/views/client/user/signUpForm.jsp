@@ -64,6 +64,11 @@
 		    	let userPw = $("#userPw").val();
 		    	isUserPwValid(userPw);
 		    })
+		    
+		    $("#cancelBtn").click(function(){
+				location.href="/user/main";
+			})
+			
 			$("#confirmBtn").click(function(){
 				if(!chkData("#userName","이름을")) return;
 	            else if(!chkData("#userId","아이디를")) return;
